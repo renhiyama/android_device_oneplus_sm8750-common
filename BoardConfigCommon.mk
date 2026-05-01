@@ -88,7 +88,13 @@ BOARD_KERNEL_CMDLINE := \
     nohugevmalloc \
     nosoftlockup \
     qcom_geni_serial.con_enabled=0 \
-    sysctl.kernel.firmware_config.force_sysfs_fallback=1
+    sysctl.kernel.firmware_config.force_sysfs_fallback=1 \
+    ramoops.mem_address=0x880000000 \
+    ramoops.mem_size=0x240000 \
+    ramoops.console_size=0x40000 \
+    ramoops.pmsg_size=0x80000 \
+    ramoops.record_size=0x10000 \
+    ramoops.ftrace_size=0x10000
 
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
 BOARD_KERNEL_BASE := 0x00000000
@@ -278,6 +284,11 @@ WIFI_HIDL_FEATURE_AWARE := true
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+# Allow vendor property_contexts to label non-vendor-prefixed properties
+# like ro.oplus.camera.defercap.support (which OplusCamera reads at runtime
+# and needs SELinux access for opluscamera_app domain).
+BUILD_BROKEN_VENDOR_PROPERTY_NAMESPACE := true
 
 # Include the proprietary files BoardConfig.
 include vendor/oneplus/sm8750-common/BoardConfigVendor.mk
