@@ -138,4 +138,12 @@
 
     <!-- Whether the device enable the non-standalone (NSA) mode of 5G NR.-->
     <bool name="config_telephony5gNonStandalone">true</bool>
+
+    <!-- VOOC fast charger detection. Pagani has the SC8547D bidirectional charge
+         pump + VOOC PHY; the proprietary D+/D- handshake handled by the kernel
+         flips voocchg_ing to 1 only on a successful VOOC adapter response. We
+         deliberately point at voocchg_ing rather than fast_charge so PD/PPS
+         chargers (which also flip fast_charge=1) don't get mislabeled "VOOC". -->
+    <bool name="config_hasVoocCharger">true</bool>
+    <string name="config_oemFastChargerStatusPath" translatable="false">/sys/class/oplus_chg/battery/voocchg_ing</string>
 </resources>
