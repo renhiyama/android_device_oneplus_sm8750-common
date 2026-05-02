@@ -271,7 +271,27 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     vendor.lineage.health-service.default
 
-$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/oplus_chg/battery/mmi_charging_enable)
+# Charging control. Switched from /sys/class/oplus_chg/battery/mmi_charging_enable
+# (a TOGGLE-only node — writing 0 also drops USB input current to ~9 mA, draining
+# the battery while plugged in) to /sys/class/oplus_chg/common/plc, which engages
+# the OEM PLC ("Power Loop Cut") path: opens the battery FET only, keeps USB
+# fully powering the system. This is what OOS uses for its "Bypass charging"
+# feature — RE'd from /odm/bin/hw/vendor.oplus.hardware.charger-V10-service
+# (setPlcBuckEnable handler) and Battery.apk's BypassChargeController calling
+# OplusBatteryManager.setChgConfig(25, "1+switch=1", 2).
+#
+# PLC takes writes in `switch=N|callname=<int>` format but reports state as
+# `status=N` (status=2 = NOT_ALLOW / no active request, status=3 = ENABLE).
+# Hence the separate _read variants — handled by Lineage HAL patch 0004.
+#
+# Declaring BYPASS support flips the framework's Toggle provider into
+# bypass-aware mode (no SW battery monitoring, hardware enforces cleanly).
+$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/oplus_chg/common/plc)
+$(call soong_config_set,lineage_health,charging_control_charging_enabled,switch=0|callname=42)
+$(call soong_config_set,lineage_health,charging_control_charging_disabled,switch=1|callname=42)
+$(call soong_config_set,lineage_health,charging_control_charging_enabled_read,status=2)
+$(call soong_config_set,lineage_health,charging_control_charging_disabled_read,status=3)
+$(call soong_config_set,lineage_health,charging_control_supports_bypass,true)
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
