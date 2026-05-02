@@ -62,6 +62,17 @@ odm/lib64/libtfa98xx.so
 # (resourcemanager_*.xml defines PCM device IDs for VI feedback). Without
 # these the smart amp keeps speakers muted as a safety default —
 # txPcm open not ready / pcmDevIdTx.size() 0 in PAL_OplusSpeakerProtection.
+# audiohalservice.qti loads these at startup via vendor_audio_interfaces.xml.
+# Mandatory ones cause audiohalservice to abort if missing — without it,
+# system_server can't connect to the audio HAL → bootloop.
+vendor/etc/audio/audio_module_config_primary.xml
+vendor/etc/audio/vendor_audio_interfaces.xml
+vendor/lib64/libagmipcservice.so
+vendor/lib64/libpalipcservice.so
+vendor/lib64/libpaleventnotifier.so
+# libsoundtriggerhal.qti.so is built from source in vendor/qcom/opensource/audio-hal/st-hal-ar
+# libqasr.so and liblistensoundmodelaidl.so are already listed below in the existing audio block
+
 vendor/etc/audio/sku_sun/audio_effects.conf
 vendor/etc/audio/sku_sun/audio_effects.xml
 vendor/etc/audio/sku_sun/audio_effects_config_stub.xml
