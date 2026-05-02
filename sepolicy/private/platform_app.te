@@ -1,0 +1,12 @@
+# SystemUI (KeyguardIndicationController.isBypassChargingActive) reads
+# /sys/class/oplus_chg/common/plc to determine the kernel-actual bypass
+# state for the AOD/lockscreen "Bypass Charging" label. Using the kernel
+# truth (status=2 vs status=3) rather than the LineageSettings user-intent
+# value is deliberate — if the kernel fails to engage bypass for any
+# reason (transient charge protocol state, PLC subsystem race), the AOD
+# label should reflect reality, not lie.
+#
+# platform_app is privileged and not subject to the
+# `neverallow all_untrusted_apps sysfs:file no_rw_file_perms` rule.
+allow platform_app vendor_sysfs_usb_supply:dir search;
+allow platform_app vendor_sysfs_usb_supply:file r_file_perms;
