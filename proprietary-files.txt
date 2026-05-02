@@ -44,24 +44,6 @@ odm/etc/audio_algos_ver/OPSR_Version.txt
 odm/etc/audio_algos_ver/OPVE_Version.txt
 # 13s: not in stock dump # odm/etc/init/init.audio.rc
 odm/lib64/libtfa98xx.so
-# Mixer/resourcemanager XMLs needed for OPLUS Smart-PA speaker protection
-# (resourcemanager_*.xml defines PCM device IDs for VI feedback). Without
-# these the smart amp keeps speakers muted as a safety default —
-# txPcm open not ready / pcmDevIdTx.size() 0 in PAL_OplusSpeakerProtection.
-vendor/etc/audio/sku_sun/audio_effects.conf
-vendor/etc/audio/sku_sun/audio_effects.xml
-vendor/etc/audio/sku_sun/audio_effects_config_stub.xml
-vendor/etc/audio/sku_sun/audio_policy_configuration.xml
-vendor/etc/audio/sku_sun/mixer_paths_sun_cdp.xml
-vendor/etc/audio/sku_sun/mixer_paths_sun_mtp.xml
-vendor/etc/audio/sku_sun/mixer_paths_sun_mtp_wsa883x_qmp.xml
-vendor/etc/audio/sku_sun/mixer_paths_sun_qrd.xml
-vendor/etc/audio/sku_sun/mixer_paths_sun_qrd_sku2.xml
-vendor/etc/audio/sku_sun/quasar_config.xml
-vendor/etc/audio/sku_sun/resourcemanager_sun_cdp.xml
-vendor/etc/audio/sku_sun/resourcemanager_sun_mtp.xml
-vendor/etc/audio/sku_sun/resourcemanager_sun_qrd.xml
-vendor/etc/audio/sku_sun/resourcemanager_sun_qrd_sku2.xml
 vendor/etc/models/acd/environment.eai
 vendor/etc/models/acd/event.eai
 vendor/etc/models/acd/music.eai
