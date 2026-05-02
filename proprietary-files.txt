@@ -36,20 +36,6 @@ vendor/lib/rfsa/adsp/libmlawbpostproc_dsp_skel.so
 vendor/lib/rfsa/adsp/nearby.napp_header
 vendor/lib/rfsa/adsp/nearby.so
 
-# Audio — ACDB (Adaptive Calibration Database) feeds the ADSP graph for the
-# audio path. Without acdb_cal.acdb, gsl_graph_open fails with -131 → no
-# graph → speakers stay muted. Speaker protection's VI feedback path
-# (DeviceTX_VI_TX GKV alias) needs this too.
-odm/etc/acdbdata/Audio_Parameter_Version.txt
-odm/etc/acdbdata/acdb_cal.acdb
-odm/etc/acdbdata/FTM/acdb_cal.acdb
-vendor/etc/acdbdata/sun_mtp/MTP_acdb_cal.acdb
-vendor/etc/acdbdata/sun_mtp/MTP_workspaceFileXml.qwsp
-vendor/etc/acdbdata/sun_qrd/QRD_acdb_cal.acdb
-vendor/etc/acdbdata/sun_qrd/QRD_workspaceFileXml.qwsp
-vendor/etc/acdbdata/nn_vad_models/fai__3.0.0_0.0__eai_4.2_enpuv5.pmd
-vendor/etc/acdbdata/nn_vad_models/fai__3.0.0_0.0__eai_4.6_enpuv5.pmd
-
 # Audio
 odm/etc/audio_algos_ver/OPAX_Version.txt
 odm/etc/audio_algos_ver/OPREC_version.txt
