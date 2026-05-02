@@ -291,7 +291,7 @@ $(call soong_config_set,lineage_health,charging_control_charging_enabled,switch=
 $(call soong_config_set,lineage_health,charging_control_charging_disabled,switch=1|callname=42)
 $(call soong_config_set,lineage_health,charging_control_charging_enabled_read,status=2)
 $(call soong_config_set,lineage_health,charging_control_charging_disabled_read,status=3)
-$(call soong_config_set,lineage_health,charging_control_supports_bypass,true)
+$(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,true)
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
