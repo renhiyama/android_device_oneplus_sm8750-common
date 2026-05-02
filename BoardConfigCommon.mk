@@ -232,8 +232,10 @@ VENDOR_SECURITY_PATCH := $(BOOT_SECURITY_PATCH)
 include device/qcom/sepolicy_vndr/SEPolicy.mk
 include hardware/oplus/sepolicy/qti/SEPolicy.mk
 
-# Local platform-side sepolicy extensions (e.g. system_server VOOC sysfs read).
-SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/private
+# Local vendor-side sepolicy extensions. Goes in vendor/ rather than system_ext
+# because the rules grant access to vendor-only types (vendor_sysfs_usb_supply),
+# which Treble forbids from referencing in system/system_ext sepolicy.
+BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
