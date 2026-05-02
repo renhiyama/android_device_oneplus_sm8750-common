@@ -5,3 +5,11 @@
 # AOD never shows "VOOC Charging" even when the kernel does engage VOOC.
 allow system_server vendor_sysfs_usb_supply:dir search;
 allow system_server vendor_sysfs_usb_supply:file r_file_perms;
+
+# HealthInterfaceService.setBypassChargingEnabled() binds to
+# vendor.oplus.hardware.charger.ICharger/default and calls setChgConfig() —
+# the only call path that actually opens the battery FET. The HAL service
+# runs in hal_oplus_charger_aidl. system_server needs both `find` on the
+# binder service and binder_call to the HAL domain.
+allow system_server hal_oplus_charger_aidl_service:service_manager find;
+binder_call(system_server, hal_oplus_charger_aidl)
