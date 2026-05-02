@@ -1,0 +1,7 @@
+# BatteryService.isOemCharger() reads /sys/class/oplus_chg/battery/voocchg_ing
+# (labeled vendor_sysfs_usb_supply) to detect active VOOC fast-charging when
+# config_oemFastChargerStatusPath is set to that node. Without this rule the
+# read fails with avc: denied → BatteryService treats it as no-fast-charger →
+# AOD never shows "VOOC Charging" even when the kernel does engage VOOC.
+allow system_server vendor_sysfs_usb_supply:dir search;
+allow system_server vendor_sysfs_usb_supply:file r_file_perms;
