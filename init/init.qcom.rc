@@ -223,6 +223,12 @@ on boot
     chown system system /sys/class/backlight/panel1-backlight/brightness
     chown system system /sys/class/backlight/panel1-backlight/max_brightness
 
+    # OPLUS gauge MMS — system_server writes item_id to switch the data
+    # source (used by HealthInterface.getRealChargingPowerMicrowatts for
+    # the lock-screen "show real charging power" toggle).
+    chown system system /sys/class/oplus_mms/gauge/item_id
+    chmod 0660 /sys/class/oplus_mms/gauge/item_id
+
     # Allow access to sensors device attributes
     chown system system /sys/class/sensors/MPU6050-accel/enable
     chown system system /sys/class/sensors/MPU6050-accel/poll_delay
