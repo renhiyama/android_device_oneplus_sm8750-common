@@ -4,7 +4,11 @@
 # read fails with avc: denied → BatteryService treats it as no-fast-charger →
 # AOD never shows "VOOC Charging" even when the kernel does engage VOOC.
 allow system_server vendor_sysfs_usb_supply:dir search;
-allow system_server vendor_sysfs_usb_supply:file r_file_perms;
+# rw_file_perms (not just r_file_perms) so HealthInterfaceService can
+# write `5` to /sys/class/oplus_mms/gauge/item_id before reading
+# /sys/class/oplus_mms/gauge/data — required for the "show real
+# charging power" toggle to read live battery current.
+allow system_server vendor_sysfs_usb_supply:file rw_file_perms;
 
 # HealthInterfaceService.setBypassChargingEnabled() binds to
 # vendor.oplus.hardware.charger.ICharger/default and calls setChgConfig() —
