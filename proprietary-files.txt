@@ -1,7 +1,21 @@
 ## All proprietary files from this list, unless pinned and noted otherwise,
 ## are from OnePlus 13 (CPH2653_16.0.5.703(EX01)).
 
-# ACDBs
+# ACDBs — Adaptive Calibration Database files feed the ADSP graph for
+# every audio session. Without acdb_cal.acdb, gsl_graph_open fails with
+# -131 (ENOTRECOVERABLE). Speaker protection's VI feedback path can't
+# load → smart amp keeps the speakers muted as a safety default.
+# IMPORTANT: max one *.acdb + one *.qwsp per directory; the ACDB lib
+# rejects extras with "max 2 files" and aborts. See pagani/proprietary-
+# files.txt — the auto-copy of odm/etc/acdbdata/acdb_cal.acdb into
+# sun_mtp/ has been intentionally removed to avoid that conflict.
+odm/etc/acdbdata/Audio_Parameter_Version.txt
+odm/etc/acdbdata/acdb_cal.acdb
+odm/etc/acdbdata/FTM/acdb_cal.acdb
+vendor/etc/acdbdata/sun_mtp/MTP_acdb_cal.acdb
+vendor/etc/acdbdata/sun_mtp/MTP_workspaceFileXml.qwsp
+vendor/etc/acdbdata/sun_qrd/QRD_acdb_cal.acdb
+vendor/etc/acdbdata/sun_qrd/QRD_workspaceFileXml.qwsp
 vendor/etc/acdbdata/nn_vad_models/fai__3.0.0_0.0__eai_4.2_enpuv5.pmd
 vendor/etc/acdbdata/nn_vad_models/fai__3.0.0_0.0__eai_4.6_enpuv5.pmd
 
@@ -35,6 +49,27 @@ vendor/lib/rfsa/adsp/libmctfengine_skel.so
 vendor/lib/rfsa/adsp/libmlawbpostproc_dsp_skel.so
 vendor/lib/rfsa/adsp/nearby.napp_header
 vendor/lib/rfsa/adsp/nearby.so
+
+# Audio sku_sun configs — needed for OPLUS Smart-PA (TFA98xx + AW87xxx)
+# speaker protection. resourcemanager_*.xml maps PCM device IDs for VI
+# (voltage/current) feedback from the speaker amps. Without these, PAL
+# logs "txPcm open not ready / pcmDevIdTx.size() 0" and the smart amp
+# keeps the speakers muted as a safety default (no protection algo
+# means physical damage risk).
+vendor/etc/audio/sku_sun/audio_effects.conf
+vendor/etc/audio/sku_sun/audio_effects.xml
+vendor/etc/audio/sku_sun/audio_effects_config_stub.xml
+vendor/etc/audio/sku_sun/audio_policy_configuration.xml
+vendor/etc/audio/sku_sun/mixer_paths_sun_cdp.xml
+vendor/etc/audio/sku_sun/mixer_paths_sun_mtp.xml
+vendor/etc/audio/sku_sun/mixer_paths_sun_mtp_wsa883x_qmp.xml
+vendor/etc/audio/sku_sun/mixer_paths_sun_qrd.xml
+vendor/etc/audio/sku_sun/mixer_paths_sun_qrd_sku2.xml
+vendor/etc/audio/sku_sun/quasar_config.xml
+vendor/etc/audio/sku_sun/resourcemanager_sun_cdp.xml
+vendor/etc/audio/sku_sun/resourcemanager_sun_mtp.xml
+vendor/etc/audio/sku_sun/resourcemanager_sun_qrd.xml
+vendor/etc/audio/sku_sun/resourcemanager_sun_qrd_sku2.xml
 
 # Audio
 odm/etc/audio_algos_ver/OPAX_Version.txt
