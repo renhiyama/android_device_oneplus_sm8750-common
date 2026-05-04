@@ -257,11 +257,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.hardware_keystore_V3.xml
 
-ifneq ($(TARGET_IS_TABLET),true)
-PRODUCT_PACKAGES += \
-    android.hardware.security.keymint3-service.strongbox.nxp \
-    android.hardware.weaver-service.nxp
-endif
+# NXP JavaCard StrongBox + Weaver are intentionally NOT requested here.
+# Per-device boards opt out via TARGET_NO_JAVACARD_STRONGBOX in BoardConfig.mk
+# (the LineageOS source services don't speak the OPlus JC applet protocol; OEM
+# binaries link against keymint AIDL V3 and can't be ported cleanly to V4).
+# Falls back to TEE StrongBox (Qualcomm's, already on /vendor).
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml \
