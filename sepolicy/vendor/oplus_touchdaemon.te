@@ -1,0 +1,8 @@
+# Allow touchDaemon to read vendor.oplus.biometrics.fingerprint.* properties
+# (labeled in property_contexts above). Upstream hardware/oplus already grants
+# set_prop on vendor_oplus_touch_prop and vendor_fingerprint_prop is set by
+# vendor_init only — no domain currently has GET on vendor_fingerprint_prop,
+# so touchDaemon's BinderForHbpThr was hitting denied{ read } against
+# default_prop on every UDFPS HBP probe. See property_contexts comment for
+# the full FP-enroll causal chain.
+get_prop(oplus_touchdaemon, vendor_fingerprint_prop)

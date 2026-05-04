@@ -1,0 +1,10 @@
+# vendor.oplus.biometrics.fingerprint.* properties (e.g.
+# vendor.oplus.biometrics.fingerprint.boot_completed) are read by the OEM
+# touchDaemon's BinderForHbpThr (the high-brightness-pulse thread that
+# coordinates the UDFPS LHBM ring with touch events). Without this label
+# they fall through to default_prop and the SELinux read is denied →
+# touchDaemon can't tell whether FP enroll/auth is in flight → the LHBM
+# ring lights at the wrong moment → captured frames are unusable → the
+# TZ trusted app receives x:0 y:0 and FP enrollment never progresses.
+# Auth still works because matching tolerates partial/noisy frames.
+vendor.oplus.biometrics.fingerprint.    u:object_r:vendor_fingerprint_prop:s0
