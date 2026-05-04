@@ -1,21 +1,13 @@
 ## All proprietary files from this list, unless pinned and noted otherwise,
 ## are from OnePlus 13 (CPH2653_16.0.5.703(EX01)).
 
-# ACDBs — Adaptive Calibration Database files feed the ADSP graph for
-# every audio session. Without acdb_cal.acdb, gsl_graph_open fails with
-# -131 (ENOTRECOVERABLE). Speaker protection's VI feedback path can't
-# load → smart amp keeps the speakers muted as a safety default.
-# IMPORTANT: max one *.acdb + one *.qwsp per directory; the ACDB lib
-# rejects extras with "max 2 files" and aborts. See pagani/proprietary-
-# files.txt — the auto-copy of odm/etc/acdbdata/acdb_cal.acdb into
-# sun_mtp/ has been intentionally removed to avoid that conflict.
-odm/etc/acdbdata/Audio_Parameter_Version.txt
-odm/etc/acdbdata/acdb_cal.acdb
-odm/etc/acdbdata/FTM/acdb_cal.acdb
-vendor/etc/acdbdata/sun_mtp/MTP_acdb_cal.acdb
-vendor/etc/acdbdata/sun_mtp/MTP_workspaceFileXml.qwsp
-vendor/etc/acdbdata/sun_qrd/QRD_acdb_cal.acdb
-vendor/etc/acdbdata/sun_qrd/QRD_workspaceFileXml.qwsp
+# ACDBs — only the nn_vad_models go here. The actual acdb_cal.acdb that
+# gsl_init reads is supplied by pagani/proprietary-files.txt as an
+# auto-mirror from /odm to /vendor/etc/acdbdata/sun_mtp/. Do NOT also
+# extract MTP_/QRD_ prefixed acdb variants here — they are different
+# files (generic Qualcomm reference data, not OEM 13s) and shipping any
+# *.acdb under sun_mtp alongside the no-prefix one trips the lib's
+# "max 2 files" check, aborts gauge_init, and respawn-loops audiohal.
 vendor/etc/acdbdata/nn_vad_models/fai__3.0.0_0.0__eai_4.2_enpuv5.pmd
 vendor/etc/acdbdata/nn_vad_models/fai__3.0.0_0.0__eai_4.6_enpuv5.pmd
 
@@ -28,8 +20,13 @@ vendor/lib64/libadsprpc.so
 vendor/lib64/libloadalgo_stub.so
 
 # ADSP modules
-odm/lib/rfsa/adsp/aiboost/signed/libQnnHtpV79Skel.so
-odm/lib/rfsa/adsp/aiboost/signed/libaiboostubwc_skel.so
+# NOTE: aiboost/signed/libQnnHtpV79Skel.so + aiboost/signed/libaiboostubwc_skel.so
+# are NOT extracted here. They share basenames with the top-level libQnnHtpV79Skel.so,
+# which confuses the ACDB lib's "max 2 files per directory" check during gsl_init —
+# audiohalservice respawn-loops in libar-acdb's deinit cleanup with an MTE crash.
+# Confirmed via the pagani_audio_v3 KSU module: bind-mounting the dir without these
+# subdir entries lets gsl_init complete cleanly. If aiboost AI features need them
+# eventually, re-introduce as a separate extraction with a different install path.
 odm/lib/rfsa/adsp/capi_v3_oprec.so
 odm/lib/rfsa/adsp/libCalculator_skel.so
 odm/lib/rfsa/adsp/libQnnHtpV79.so
