@@ -299,6 +299,14 @@ PRODUCT_PACKAGES += \
 
 $(call soong_config_set_bool,OPLUS_LINEAGE_LIVEDISPLAY_HAL,ENABLE_SE,false)
 
+# SurfaceFlinger LTPO frame rate bounds.
+# Pagani's panel ADFR table: <120 60 30 20 10 1> — we want the framework
+# willing to request all the way down to 1Hz. The default is 20Hz.
+# The HIGH category we bump to 120 so apps requesting "high" get the panel's
+# full peak (default is 90Hz, leaves performance on the table).
+$(call soong_config_set,surfaceflinger,frame_rate_category_min,1)
+$(call soong_config_set,surfaceflinger,frame_rate_category_high,120)
+
 # Media
 PRODUCT_COPY_FILES += \
     $(AUDIO_HAL_DIR)/configs/common/codec2/media_codecs_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2_audio.xml \

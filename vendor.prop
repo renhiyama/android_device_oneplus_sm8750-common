@@ -108,6 +108,15 @@ vendor.display.enable_async_vds_creation=1
 vendor.display.enable_display_extensions=1
 vendor.display.enable_dpps_dynamic_fps=1
 vendor.display.enable_early_wakeup=1
+# QSync idle: drops panel refresh rate when content is static. Required for
+# the ADFR engine to actually emit at the LTPO floor (e.g. 1Hz) on idle.
+vendor.display.enable_qsync_idle=1
+# Synthetic VRR fallback for SurfaceFlinger. Pagani's panel hardware supports
+# 1-120Hz LTPO via ADFR, but the QTI composer-service doesn't fill VrrConfig
+# in getDisplayConfigurations. Patch 0011 (HWComposer.cpp) reads this sysprop
+# and synthesizes a VrrConfig per mode so the framework can actually request
+# rates below 60Hz and the dev-options refresh-rate overlay reports real rates.
+ro.vendor.display.synthetic_vrr_min_hz=1
 vendor.display.enable_hdr10_gpu_target=0
 vendor.display.enable_optimize_refresh=0
 vendor.display.enable_rc_support=1
