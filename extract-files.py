@@ -44,8 +44,18 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
+    # libshims_aidl_fingerprint_v3.oplus.so — overrides SensorProps::writeToParcel
+    #   so the HAL serves sensor type/location/size from
+    #   persist.vendor.fingerprint.* sysprops at runtime (lets one HAL binary
+    #   cover both pagani SKUs whose udfps coords differ).
+    # libshims_fingerprint.oplus.so — overrides __system_property_get +
+    #   property_get to return ro.boot.vbmeta.device_state="unlocked" and
+    #   ro.boot.verifiedbootstate="orange". Without this lie the OEM HAL's
+    #   anti-tamper logic refuses to enroll NEW fingerprints when the
+    #   bootloader is unlocked, even though auth on existing prints works.
     'odm/bin/hw/vendor.oplus.hardware.biometrics.fingerprint@2.1-service_uff': blob_fixup()
-        .add_needed('libshims_aidl_fingerprint_v3.oplus.so'),
+        .add_needed('libshims_aidl_fingerprint_v3.oplus.so')
+        .add_needed('libshims_fingerprint.oplus.so'),
     (
         'odm/bin/touchDaemon',
         'odm/bin/hw/vendor-oplus-hardware-touch-V2-service',
