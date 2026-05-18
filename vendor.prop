@@ -207,17 +207,19 @@ persist.vendor.radio.procedure_bytes=SKIP
 persist.vendor.radio.sib16_support=1
 ro.telephony.default_network=33,33
 
-# eSIM (pagani has factory-provisioned embedded UICC chip on slot 1, gated
-# by /odm/bin/hw/vendor.oplus.hardware.esim@1.0-service which toggles
-# /dev/esim-en GPIO. The HAL exposes only power+hotswap methods; once the
-# chip is powered the modem enumerates it as a standard Android slot, and
-# AOSP-style LPAs (OpenEUICC, EuiccGoogle) work end-to-end. The .feature=2
-# prop is what tells the QC RIL + OPlus eSIM HAL to actually probe the
-# slot — without it the chip stays dark even though the GPIO is wired.)
+# eSIM (pagani slot 2 is a hybrid tray — either a 2nd nano-SIM or a
+# factory-provisioned embedded UICC chip behind /dev/esim-en GPIO, toggled
+# by /odm/bin/hw/vendor.oplus.hardware.esim@1.0-service.
+#
+# .support=1 declares the HAL is present. .feature=2 unlocks the QC RIL
+# eSIM probe path so EuiccGoogle/OpenEUICC can talk to the chip when the
+# user enables it. We deliberately do NOT set .default.on=1: forcing the
+# GPIO high at boot makes the modem map slot 2 to the eSIM unconditionally
+# and hides any physical nano-SIM the user has inserted there. With the
+# default-off behaviour the OEM HAL reads the tray-presence interrupt and
+# powers the eSIM only when the tray is empty, matching stock OOS.)
 ro.vendor.oplus.esim.support=1
 ro.vendor.oplus.radio.esim.feature=2
-ro.vendor.oplus.radio.esim.default.on=1
-setupwizard.feature.esim_enabled=true
 
 # RCS
 persist.vendor.rcs.singlereg.feature=1
